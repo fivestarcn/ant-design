@@ -102,3 +102,6 @@ export { Tooltip }
 
 import Mention from './mention';
 export { Mention };
+
+import RibbonButton from './ribbon-button';
+export { RibbonButton };
