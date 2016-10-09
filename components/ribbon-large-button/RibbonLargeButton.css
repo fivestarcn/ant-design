@@ -1,0 +1,36 @@
+.stand-large-button {
+  float: left;
+  background: transparent;
+  border: 1px solid transparent;
+}
+.stand-large-button:hover{
+  background: #fdeeb3;
+  border: 1px solid #F1C43F;
+  border-radius: 3px 3px 3px 3px;
+  cursor: pointer;
+}
+.stand-large-button span{
+  width: 100%;
+  float: left;
+}
+.stand-large-button-text{
+  padding-top: 3px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.stand-large-button-disable {
+  float: left;
+  background: transparent;
+  border: 1px solid transparent;
+  -webkit-filter: grayscale(1);/* Webkit */
+  filter:gray;/* IE6-9 */
+  filter: grayscale(1);/* W3C */
+  opacity: 0.8;
+}
+.stand-large-button-disable span{
+  width: 100%;
+  float: left;
+}

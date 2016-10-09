@@ -105,3 +105,9 @@ export { Mention };
 
 import RibbonButton from './ribbon-button';
 export { RibbonButton };
+
+import RibbonLargeButton from './ribbon-large-button';
+export { RibbonLargeButton };
+
+import RibbonHeader from './ribbon-header';
+export { RibbonHeader };

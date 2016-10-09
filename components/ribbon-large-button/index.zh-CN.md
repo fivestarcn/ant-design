@@ -1,11 +1,11 @@
 ---
 category: Components
 type: Ribbon
-title: RibbonButton
-subtitle: Ribbon风格按钮
+title: RibbonLargeButton
+subtitle: Ribbon风格大按钮
 ---
 
-Ribbon风格按钮。
+Ribbon风格大按钮。
 
 ## 何时使用
 
@@ -24,10 +24,6 @@ Ribbon风格按钮。
 
 | icon        | 说明           |
 |------------|----------------|
-| checkScheduling    | 查看调度 |
-| checkDispatching    | 查看派工 |
-| checkCompletion    | 查看完工 |
-| batchEdit    | 批量修改 |
-| batchException    | 批量异常 |
-| more    | 更多 |
-| reset    | 重置 |
+| customizeCol    | 自定义列 |
+| export    | 导出 |
+| query    | 请求 |
