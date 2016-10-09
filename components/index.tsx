@@ -111,3 +111,6 @@ export { RibbonLargeButton };
 
 import RibbonHeader from './ribbon-header';
 export { RibbonHeader };
+
+import CommonButton from './common-button';
+export { CommonButton };

@@ -1,0 +1,27 @@
+.com-button{
+	margin-bottom: 8px;
+	float: left;
+	text-align: center;
+	background: transparent
+}
+
+.icon-bottom{
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+.butt{
+	margin-right: 4px;
+	background: transparent;
+	outline-style: none;
+	border: 1px solid transparent;
+}
+
+.com-button:hover{
+	border-radius: 3px 3px 3px 3px;
+	cursor: pointer;
+}
+
+.inner{
+	display: inline-block;
+}
