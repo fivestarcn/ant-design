@@ -1,0 +1,17 @@
+.standHeight{
+	height: 28px;
+}
+
+.textarea{
+	border: 1px solid #d9d9d9;
+	background-color: #fff;
+	border-radius:6px;
+	height: auto;
+	width: 100%;
+}
+
+.textarea:hover{
+	border: 1px solid #2db7f5;
+    -webkit-transition: border .2s cubic-bezier(.645,.045,.355,1),background .2s cubic-bezier(.645,.045,.355,1),box-shadow .2s cubic-bezier(.645,.045,.355,1);
+    transition: border .2s cubic-bezier(.645,.045,.355,1),background .2s cubic-bezier(.645,.045,.355,1),box-shadow .2s cubic-bezier(.645,.045,.355,1);
+}
