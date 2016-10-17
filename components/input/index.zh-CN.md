@@ -27,6 +27,10 @@ english: Input
 | addonBefore | 带标签的 input，设置前置标签 | node |  |   |
 | addonAfter | 带标签的 input，设置后置标签 | node |  |   |
 | onPressEnter | 按下回车的回调 | function(e) | |  |
+| hidden | true 隐藏整个输入框 | bool | | false |
+| label | 定义输入框名称，当label未赋值时默认只有input输入框隐去label标签 | string | |  |
+| left | 定义lable标签所占比例大小，必须和label参数配合使用否则无效 | string | |  |
+| right | 定义input输入框所占比例大小，必须和label参数配合使用否则无效 | string | |  |
 | autosize | 自适应内容高度，只对 `type="textarea"` 有效 | bool or object | `true` or `{ minRows: 2, maxRows: 6 }` | false |
 
 > 如果 `Input` 在 `Form.Item` 内，并且 `Form.Item` 设置了 `id` 和 `options` 属性，则 `value` `defaultValue` 和 `id` 属性会被自动设置。
