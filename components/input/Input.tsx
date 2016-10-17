@@ -42,6 +42,10 @@ export interface InputProps {
   placeholder?: string;
   size?: 'large' | 'default' | 'small';
   disabled?: boolean;
+  hidden?: boolean;
+  label?: string;
+  left?: any;
+  right?: any;
   readOnly?: boolean;
   addonBefore?: React.ReactNode;
   addonAfter?: React.ReactNode;
@@ -57,6 +61,9 @@ export default class Input extends Component<InputProps, any> {
   static Group: any;
   static defaultProps = {
     disabled: false,
+    hidden: false,
+    left: '8',
+    right: '16',
     prefixCls: 'ant-input',
     type: 'text',
     onPressEnter() {},
@@ -73,6 +80,10 @@ export default class Input extends Component<InputProps, any> {
     ]),
     size: PropTypes.oneOf(['small', 'default', 'large']),
     disabled: PropTypes.bool,
+    hidden: PropTypes.bool,
+    label: PropTypes.string,
+    left: PropTypes.any,
+    right: PropTypes.any,
     value: PropTypes.any,
     defaultValue: PropTypes.any,
     className: PropTypes.string,
@@ -140,6 +151,7 @@ export default class Input extends Component<InputProps, any> {
     const props = this.props;
     const wrapperClassName = `${props.prefixCls}-group`;
     const addonClassName = `${wrapperClassName}-addon`;
+    const hidden = this.props.hidden ? {'display': 'none'} : {};
     const addonBefore = props.addonBefore ? (
       <span className={addonClassName}>
         {props.addonBefore}
@@ -157,13 +169,34 @@ export default class Input extends Component<InputProps, any> {
       [wrapperClassName]: (addonBefore || addonAfter),
     });
 
-    return (
-      <span className={className}>
-        {addonBefore}
-        {children}
-        {addonAfter}
-      </span>
-    );
+    const labelHeight = fixControlledValue(props.size) == '' ? "lable-default" : props.size ;
+    const labelstring = props.label ? "have" : '' ;
+
+    switch (labelstring) {
+      case 'have':
+      return (
+        <div className="ant-row" style={hidden}>
+          <label className={'ant-col-' + this.props.left + ' label-input ' + labelHeight}>{this.props.label}</label>
+            <div className={'ant-col-' + this.props.right}>
+              <span className={className}>
+                {addonBefore}
+                {children}
+                {addonAfter}
+              </span>
+            </div>
+        </div>
+        );
+      default:
+      return (
+        <div className="ant-row" style={hidden}>
+              <span className={className}>
+                {addonBefore}
+                {children}
+                {addonAfter}
+              </span>
+        </div>
+        );
+      }
   }
 
   renderInput() {
@@ -222,6 +255,7 @@ export default class Input extends Component<InputProps, any> {
   }
 
   render() {
+    require('./style/input.css');
     return this.renderLabledInput(this.renderInput());
   }
 }
