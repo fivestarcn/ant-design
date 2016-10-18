@@ -31,8 +31,7 @@ label {
 input[type="radio"],
 input[type="checkbox"] {
   &[disabled],
-  &.disabled,
-  fieldset[disabled] & {
+  &.disabled {
     cursor: @cursor-disabled;
   }
 }
@@ -42,8 +41,7 @@ input[type="checkbox"] {
 .@{ant-prefix}-radio-vertical,
 .@{ant-prefix}-checkbox-inline,
 .@{ant-prefix}-checkbox-vertical {
-  &.disabled,
-  fieldset[disabled] & {
+  &.disabled {
     cursor: @cursor-disabled;
   }
 }
@@ -51,8 +49,7 @@ input[type="checkbox"] {
 // These classes are used on elements with <label> descendants
 .@{ant-prefix}-radio,
 .@{ant-prefix}-checkbox {
-  &.disabled,
-  fieldset[disabled] & {
+  &.disabled {
     label {
       cursor: @cursor-disabled;
     }
@@ -79,7 +76,7 @@ input[type="checkbox"] {
   }
 
   &-with-help {
-    margin-bottom: @form-item-margin-bottom - @font-size-base * @line-height-base - 3;
+    margin-bottom: @form-item-margin-bottom - @font-size-base * @line-height-base;
   }
 
   &-label {
@@ -87,6 +84,9 @@ input[type="checkbox"] {
     vertical-align: middle;
     padding: 7px 0;
     display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     label {
       color: @label-color;
@@ -111,7 +111,6 @@ input[type="checkbox"] {
 
 .@{form-prefix-cls}-explain {
   line-height: 1.5;
-  margin-top: 3px;
 }
 
 .@{form-prefix-cls}-explain,
@@ -323,7 +322,7 @@ form {
   }
 
   &.has-feedback:after {
-    content: '\e62f';
+    content: '\e630';
     color: @success-color;
   }
 }
@@ -332,7 +331,7 @@ form {
   .form-control-validation(@warning-color; @warning-color;);
 
   &.has-feedback:after {
-    content: '\e634';
+    content: '\e62c';
     color: @warning-color;
   }
 
@@ -372,7 +371,7 @@ form {
   .form-control-validation(@error-color; @error-color;);
 
   &.has-feedback:after {
-    content: '\e631';
+    content: '\e62e';
     color: @error-color;
   }
 
@@ -425,7 +424,7 @@ form {
   &.has-feedback:after {
     display: inline-block;
     animation: loadingCircle 1s infinite linear;
-    content: "\e6a1";
+    content: "\e6ae";
     color: #999;
   }
 }

@@ -44,7 +44,7 @@ $ npm install antd-init -g
 
 ```bash
 $ mkdir antd-demo && cd antd-demo
-$ antd-init --type plain-react
+$ antd-init
 ```
 
 antd-init 会自动安装 npm 依赖，若有问题则可自行安装。
@@ -55,7 +55,7 @@ antd-init 会自动安装 npm 依赖，若有问题则可自行安装。
 
 脚手架会生成一个 Todo 应用实例（一个很有参考价值的 React 上手示例），先不管它，我们用来测试组件。
 
-直接用下面的代码替换 `src/entries/index.js` 的内容，用 React 的方式直接使用 antd 组件。
+直接用下面的代码替换 `index.js` 的内容，用 React 的方式直接使用 antd 组件。
 
 ```jsx
 import React from 'react';
@@ -90,7 +90,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ### 4. 开发调试
 
-一键启动调试，访问 http://127.0.0.1:8989 查看效果。
+一键启动调试，访问 http://127.0.0.1:8000 查看效果。
 
 ```bash
 $ npm start
@@ -108,9 +108,9 @@ $ npm run build
 
 ## 兼容性
 
-Ant Design React 支持所有的现代浏览器和 IE8+。
+Ant Design React 支持所有的现代浏览器和 IE9+。
 
-对于 IE8/9 等浏览器，需要提供 [es5-shim](https://facebook.github.io/react/docs/working-with-the-browser.html#browser-support) 等 Polyfills 的支持，推荐使用 [babel-polyfill](https://babeljs.io/docs/usage/polyfill/)。特别对于 IE8 需要配合使用 [react@0.14.x](https://facebook.github.io/react/blog/2016/01/12/discontinuing-ie8-support.html) 版本。
+对于 IE 系列浏览器，需要提供 [es5-shim](https://github.com/es-shims/es5-shim) 和 [es6-shim](https://github.com/paulmillr/es6-shim) 等 Polyfills 的支持。如果你使用了 babel，强烈推荐使用 [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) 和 [babel-plugin-transform-runtime](https://babeljs.io/docs/plugins/transform-runtime/)。
 
 ```html
 <!DOCTYPE html>
@@ -121,7 +121,7 @@ Ant Design React 支持所有的现代浏览器和 IE8+。
     <link rel="stylesheet" href="/index.css">
     <!-- Polyfills -->
     <!--[if lt IE 10]>
-    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
+    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,es6-shim/0.35.1/es6-sham.min.js,es6-shim/0.35.1/es6-shim.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
     <![endif]-->
   </head>
   <body>
@@ -133,9 +133,13 @@ Ant Design React 支持所有的现代浏览器和 IE8+。
 </html>
 ```
 
-另外，由于 `babel@6.x` 对 IE8 的支持不佳，你可能会遇到类似 [#28](https://github.com/ant-tool/atool-build/issues/28) 和 [#858](https://github.com/ant-design/ant-design/issues/858) 的 default 报错的问题。
+#### IE8 note
 
-[antd-init](http://github.com/ant-design/antd-init) 脚手架已经解决了这个问题，你也可以参照这个 [webpack 配置](https://github.com/ant-design/antd-init/blob/f5fb9479ca973fade51fd6754e50f8b3fafbb1df/boilerplate/webpack.config.js#L4-L8)。
+> `antd@2.0` 之后将不再支持 IE8。
+
+IE8 需要配合使用 [react@0.14.x](https://facebook.github.io/react/blog/2016/01/12/discontinuing-ie8-support.html) 版本。
+
+另外，由于 `babel@6.x` 对 IE8 的支持不佳，你可能会遇到类似 [#28](https://github.com/ant-tool/atool-build/issues/28) 和 [#858](https://github.com/ant-design/ant-design/issues/858) 的 default 报错的问题，你也可以参照这个 [webpack 配置](https://github.com/ant-design/antd-init/blob/f5fb9479ca973fade51fd6754e50f8b3fafbb1df/boilerplate/webpack.config.js#L4-L8) 来解决。
 
 > 更多 IE8 下使用 React 的相关问题可以参考：https://github.com/xcatliu/react-ie8
 
@@ -153,13 +157,13 @@ Ant Design React 支持所有的现代浏览器和 IE8+。
 import Button from 'antd/lib/button';
 ```
 
-如果你使用 babel，我们推荐使用 [babel-plugin-antd](https://github.com/ant-design/babel-plugin-antd) 来进行按需加载，加入这个插件后。你可以仍然这么写：
+如果你使用 babel，我们推荐使用 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) 来进行按需加载，加入这个插件后。你可以仍然这么写：
 
 ```jsx
 import { Button } from 'antd';
 ```
 
-插件会帮你转换成上面的写法。另外此插件配合 [style](https://github.com/ant-design/babel-plugin-antd#usage) 属性可以做到模块样式的按需自动加载。
+插件会帮你转换成上面的写法。另外此插件配合 [style](https://github.com/ant-design/babel-plugin-import#usage) 属性可以做到模块样式的按需自动加载。
 
 ## 配置案例
 

@@ -4,7 +4,13 @@
   </a>
 </p>
 
-# Ant Design [![](https://img.shields.io/travis/ant-design/ant-design.svg?style=flat-square)](https://travis-ci.org/ant-design/ant-design) [![npm package](https://img.shields.io/npm/v/antd.svg?style=flat-square)](https://www.npmjs.org/package/antd) [![NPM downloads](http://img.shields.io/npm/dm/antd.svg?style=flat-square)](https://npmjs.org/package/antd) [![Dependency Status](https://david-dm.org/ant-design/ant-design.svg?style=flat-square)](https://david-dm.org/ant-design/ant-design) [![Join the chat at https://gitter.im/ant-design/ant-design](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ant-design/ant-design?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Ant Design
+[![](https://img.shields.io/travis/ant-design/ant-design.svg?style=flat-square)](https://travis-ci.org/ant-design/ant-design)
+[![npm package](https://img.shields.io/npm/v/antd.svg?style=flat-square)](https://www.npmjs.org/package/antd)
+[![NPM downloads](http://img.shields.io/npm/dm/antd.svg?style=flat-square)](https://npmjs.org/package/antd)
+[![CDNJS](https://img.shields.io/cdnjs/v/antd.svg?style=flat-square)](https://cdnjs.com/libraries/antd)
+[![Dependency Status](https://david-dm.org/ant-design/ant-design.svg?style=flat-square)](https://david-dm.org/ant-design/ant-design)
+[![Join the chat at https://gitter.im/ant-design/ant-design](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ant-design/ant-design?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 一套企业级的 UI 设计语言和 React 实现。
 
@@ -12,7 +18,8 @@
 
 - 提炼和服务企业级中后台产品的交互语言和视觉风格。
 - [React Component](http://react-component.github.io/badgeboard/) 基础上精心封装的高质量 UI 组件。
-- 基于 npm + webpack + babel 的工作流，支持 ES2015 和 TypeScript。
+- 使用 TypeScript 构建，提供完整的类型定义文件。
+- 基于 npm + webpack + babel + [dora](https://github.com/dora-js/dora) + [dva](https://github.com/dvajs/dva) 的企业级业务开发框架。
 
 ## 安装
 
@@ -33,27 +40,34 @@ ReactDOM.render(<DatePicker />, mountNode);
 import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 ```
 
-按需加载可通过此写法 `import DatePicker from 'antd/lib/date-picker'` 或使用插件 [babel-plugin-antd](https://github.com/ant-design/babel-plugin-antd)。
+按需加载可通过此写法 `import DatePicker from 'antd/lib/date-picker'` 或使用插件 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import)。
 
 
 ## 浏览器支持
 
-现代浏览器和 IE8 及以上。
+现代浏览器和 IE9 及以上。
 
 > [IE8 issues](https://github.com/xcatliu/react-ie8)
 
 ## TypeScript
 
-```js
-///<reference path='./node_modules/antd/type-definitions/antd.d.ts'/>
-...
+tsconfig.json
+
+```
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "jsx": "preserve",
+    "allowSyntheticDefaultImports": true
+  }
+}
 ```
 
 ## 链接
 
 - [首页](http://ant.design/)
-- [React 实现](http://ant.design/#/docs/react/introduce)
-- [修改记录](CHANGELOG.md)
+- [React 实现](http://ant.design/docs/react/introduce)
+- [修改记录](CHANGELOG.zh-CN.md)
 - [开发脚手架](https://github.com/ant-design/antd-init/)
 - [开发工具文档](http://ant-tool.github.io/)
 - [React 基础组件](http://react-component.github.io/)
@@ -66,7 +80,6 @@ import 'antd/dist/antd.css';  // or 'antd/dist/antd.less'
 - [常见问题](https://github.com/ant-design/ant-design/wiki/FAQ)
 - [CodePen 模板](http://codepen.io/benjycui/pen/KgPZrE?editors=001)
 - [Awesome Ant Design](https://github.com/websemantics/awesome-ant-design)
-
 
 ## 如何贡献
 
