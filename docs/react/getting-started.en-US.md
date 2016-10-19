@@ -45,7 +45,7 @@ A new project can be created using CLI tools.
 
 ```bash
 $ mkdir antd-demo && cd antd-demo
-$ antd-init --type plain-react
+$ antd-init
 ```
 
 `antd-init` will run `npm install` after a project is created. If it fails, you can run `npm install` by yourself.
@@ -55,7 +55,7 @@ $ antd-init --type plain-react
 By default, besides the scaffolding needed to start the development, a fully working Todo application is created.
 You may study this example later. For now, just follow this guide in order to get some experience working with the result of `antd-init`.
 
-Replace the content of `src/entries/index.js` with the following code.
+Replace the content of `index.js` with the following code.
 As you can see, there is no difference between antd's components and usual React components.
 
 ```jsx
@@ -91,7 +91,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ### 4. Development & Debugging
 
-Run your project and visit http://127.0.0.1:8989
+Run your project and visit http://127.0.0.1:8000
 
 ```bash
 $ npm start
@@ -110,9 +110,9 @@ Entry files will be built and generated in `dist` directory, then we can deploy 
 
 ## Compatibility
 
-Ant Design React supports all the modern browsers and IE8+.
+Ant Design React supports all the modern browsers and IE9+.
 
-But we need to provide [es5-shim](https://facebook.github.io/react/docs/working-with-the-browser.html#browser-support) and other polyfills for IE8/9, and [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) is a better choice. What's more, use [react@0.14.x](https://facebook.github.io/react/blog/2016/01/12/discontinuing-ie8-support.html) to support IE8.
+You need to provide [es5-shim](https://github.com/es-shims/es5-shim) 和 [es6-shim](https://github.com/paulmillr/es6-shim) and other polyfills for IE browsers. If you are using babel, we strongly recommend to use [babel-polyfill](https://babeljs.io/docs/usage/polyfill/) and [babel-plugin-transform-runtime](https://babeljs.io/docs/plugins/transform-runtime/).
 
 ```html
 <!DOCTYPE html>
@@ -123,7 +123,7 @@ But we need to provide [es5-shim](https://facebook.github.io/react/docs/working-
     <link rel="stylesheet" href="/index.css">
     <!-- Polyfills -->
     <!--[if lt IE 10]>
-    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
+    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,es6-shim/0.35.1/es6-sham.min.js,es6-shim/0.35.1/es6-shim.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
     <![endif]-->
   </head>
   <body>
@@ -135,9 +135,11 @@ But we need to provide [es5-shim](https://facebook.github.io/react/docs/working-
 </html>
 ```
 
-You may encounter problems like [#28](https://github.com/ant-tool/atool-build/issues/28) and [#858](https://github.com/ant-design/ant-design/issues/858), since `babel@6.x` doesn't support IE8.
+#### IE8 note
 
-[antd-init](http://github.com/ant-design/antd-init) had solved those problems and you can refer to this [webpack config](https://github.com/ant-design/antd-init/blob/f5fb9479ca973fade51fd6754e50f8b3fafbb1df/boilerplate/webpack.config.js#L4-L8).
+> We don't support IE8 after `antd@2.0`.
+
+You may encounter problems like [#28](https://github.com/ant-tool/atool-build/issues/28) and [#858](https://github.com/ant-design/ant-design/issues/858), since `babel@6.x` doesn't support IE8. You can refer to this [webpack config](https://github.com/ant-design/antd-init/blob/f5fb9479ca973fade51fd6754e50f8b3fafbb1df/boilerplate/webpack.config.js#L4-L8).
 
 > More about how to use React in IE8: https://github.com/xcatliu/react-ie8
 
@@ -157,13 +159,13 @@ If we import a component like this `import { Button } from 'antd';`, then all th
 import Button from 'antd/lib/button';
 ```
 
-If you use `babel`, we recommend to use [babel-plugin-antd](https://github.com/ant-design/babel-plugin-antd). This plugin will convert the following code to the above form:
+If you use `babel`, we recommend to use [babel-plugin-import](https://github.com/ant-design/babel-plugin-import). This plugin will convert the following code to the above form:
 
 ```jsx
 import { Button } from 'antd';
 ```
 
-And this plugin can also load styles on demand. See the [usage](https://github.com/ant-design/babel-plugin-antd#usage) for further details.
+And this plugin can also load styles on demand. See the [usage](https://github.com/ant-design/babel-plugin-import#usage) for further details.
 
 ## Customization
 

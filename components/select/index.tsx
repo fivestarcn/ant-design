@@ -1,9 +1,10 @@
-import * as React from 'react';
+import React from 'react';
 import { PropTypes } from 'react';
 import RcSelect, { Option, OptGroup } from 'rc-select';
 import classNames from 'classnames';
 
-export type SelectValue = string | string[] | Array<{ key: string, label: React.ReactNode }>;
+export type SelectValue = string | any[] | { key: string, label: React.ReactNode } |
+ Array<{ key: string, label: React.ReactNode }>;
 
 export interface SelectProps {
   prefixCls?: string;
@@ -12,7 +13,7 @@ export interface SelectProps {
   defaultValue?: SelectValue;
   size?: 'default' | 'large' | 'small';
   combobox?: boolean;
-  notFoundContent?: React.ReactNode;
+  notFoundContent?: React.ReactNode | string;
   showSearch?: boolean;
   transitionName?: string;
   choiceTransitionName?: string;
@@ -30,10 +31,20 @@ export interface SelectProps {
   disabled?: boolean;
   defaultActiveFirstOption?: boolean;
   labelInValue?: boolean;
-  getPopupContainer?: (triggerNode: React.ReactNode) => React.ReactNode;
+  getPopupContainer?: (triggerNode: React.ReactNode) => React.ReactNode | HTMLElement;
   style?: React.CSSProperties;
+  dropdownStyle?: React.CSSProperties;
   dropdownMenuStyle?: React.CSSProperties;
-  onChange?: (value) => void;
+  onChange?: (value: SelectValue) => void;
+}
+
+export interface OptionProps {
+  disabled?: boolean;
+  value?: any;
+}
+
+export interface OptGroupProps {
+  label?: string | React.ReactElement<any>;
 }
 
 export interface SelectContext {
@@ -42,11 +53,12 @@ export interface SelectContext {
   };
 }
 
-export { Option, OptGroup }
+// => It is needless to export the declaration of below two inner components.
+// export { Option, OptGroup };
 
 export default class Select extends React.Component<SelectProps, any> {
-  static Option = Option;
-  static OptGroup = OptGroup;
+  static Option = Option as React.ClassicComponentClass<OptionProps>;
+  static OptGroup = OptGroup as React.ClassicComponentClass<OptGroupProps>;
 
   static defaultProps = {
     prefixCls: 'ant-select',
@@ -70,26 +82,27 @@ export default class Select extends React.Component<SelectProps, any> {
   context: SelectContext;
 
   render() {
-    let {
+    const {
       prefixCls,
       className,
       size,
       combobox,
-      notFoundContent,
       showSearch,
-      optionLabelProp,
     } = this.props;
+
+    let { notFoundContent = 'Not Found', optionLabelProp } = this.props;
 
     const cls = classNames({
       [`${prefixCls}-lg`]: size === 'large',
       [`${prefixCls}-sm`]: size === 'small',
-      [className]: !!className,
       [`${prefixCls}-show-search`]: showSearch,
+      [className]: !!className,
     });
 
     const { antLocale } = this.context;
     if (antLocale && antLocale.Select) {
-      notFoundContent = notFoundContent || antLocale.Select.notFoundContent;
+      notFoundContent = ('notFoundContent' in this.props)
+        ? notFoundContent : antLocale.Select.notFoundContent;
     }
 
     if (combobox) {
@@ -99,7 +112,8 @@ export default class Select extends React.Component<SelectProps, any> {
     }
 
     return (
-      <RcSelect {...this.props}
+      <RcSelect
+        {...this.props}
         className={cls}
         optionLabelProp={optionLabelProp || 'children'}
         notFoundContent={notFoundContent}

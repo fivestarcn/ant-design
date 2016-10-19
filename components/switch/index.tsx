@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { PropTypes } from 'react';
 import RcSwitch from 'rc-switch';
 import classNames from 'classnames';
@@ -12,6 +12,7 @@ export interface SwitchProps {
   onChange?: (checked: boolean) => any;
   checkedChildren?: React.ReactNode;
   unCheckedChildren?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export default class Switch extends React.Component<SwitchProps, any> {

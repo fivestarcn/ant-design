@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { cloneElement } from 'react';
 import warning from 'warning';
 import BreadcrumbItem from './BreadcrumbItem';
@@ -8,7 +8,7 @@ export interface BreadcrumbProps {
   routes?: Array<any>;
   params?: Object;
   separator?: string | React.ReactNode;
-  itemRender?: (route, params, routes, paths) => React.ReactNode;
+  itemRender?: (route: any, params: any, routes: Array<any>, paths: Array<string>) => React.ReactNode;
   style?: React.CSSProperties;
 };
 

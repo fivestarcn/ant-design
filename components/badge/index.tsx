@@ -1,7 +1,8 @@
-import * as React from 'react';
+import React from 'react';
 import Animate from 'rc-animate';
 import ScrollNumber from './ScrollNumber';
 import classNames from 'classnames';
+import splitObject from '../_util/splitObject';
 
 export interface BadgeProps {
   /** Number to show in badge */
@@ -23,7 +24,6 @@ export default class Badge extends React.Component<BadgeProps, any> {
     count: null,
     dot: false,
     overflowCount: 99,
-    // status: 'default',
   };
 
   static propTypes = {
@@ -36,7 +36,12 @@ export default class Badge extends React.Component<BadgeProps, any> {
   };
 
   render() {
-    let { count, prefixCls, overflowCount, className, style, children, dot, status, text } = this.props;
+    let [{
+      count, prefixCls, overflowCount, className, style, children, dot, status, text,
+    }, restProps] = splitObject(
+      this.props,
+      ['count', 'prefixCls', 'overflowCount', 'className', 'style', 'children', 'dot', 'status', 'text']
+    );
     const isDot = dot || status;
 
     count = count > overflowCount ? `${overflowCount}+` : count;
@@ -51,18 +56,30 @@ export default class Badge extends React.Component<BadgeProps, any> {
     const scrollNumberCls = classNames({
       [`${prefixCls}-dot`]: isDot,
       [`${prefixCls}-count`]: !isDot,
-      [`${prefixCls}-status`]: status,
-      [`${prefixCls}-status-${status}`]: status,
-      [`${prefixCls}-status-with-text`]: text,
     });
     const badgeCls = classNames({
       [className]: !!className,
       [prefixCls]: true,
+      [`${prefixCls}-status`]: !!status,
       [`${prefixCls}-not-a-wrapper`]: !children,
     });
 
+    // <Badge status="success" />
+    if (!children && status) {
+      const statusCls = classNames({
+        [`${prefixCls}-status-dot`]: !!status,
+        [`${prefixCls}-status-${status}`]: true,
+      });
+      return (
+        <span className={badgeCls}>
+          <span className={statusCls} />
+          <span className={`${prefixCls}-status-text`}>{text}</span>
+        </span>
+      );
+    }
+
     return (
-      <span className={badgeCls} title={count} style={null}>
+      <span className={badgeCls} title={count} style={null} {...restProps}>
         {children}
         <Animate
           component=""

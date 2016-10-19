@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { PropTypes } from 'react';
+import classNames from 'classnames';
 import List from './list';
 import Operation from './operation';
 import Search from './search';
-import classNames from 'classnames';
 
 function noop() {
 }
@@ -12,29 +12,38 @@ export interface TransferItem {
   key: number | string;
   title: string;
   description?: string;
-  chosen: boolean;
+  disabled?: boolean;
 }
 
 // Transfer
 export interface TransferProps {
-  dataSource: Array<TransferItem>;
+  dataSource: TransferItem[];
+  targetKeys: string[];
   render?: (record: TransferItem) => any;
-  targetKeys: Array<string>;
-  onChange?: (targetKeys: Array<TransferItem>, direction: string, moveKeys: any) => void;
+  onChange?: (targetKeys: TransferItem[], direction: string, moveKeys: any) => void;
+  onSelectChange?: (sourceSelectedKeys: string[], targetSelectedKeys: string[]) => void;
   listStyle?: React.CSSProperties;
   className?: string;
   prefixCls?: string;
-  titles?: Array<string>;
-  operations?: Array<string>;
+  titles?: string[];
+  operations?: string[];
   showSearch?: boolean;
   searchPlaceholder?: string;
-  notFoundContent?: React.ReactNode | string;
+  notFoundContent?: React.ReactNode;
   footer?: (props: any) => any;
   style?: React.CSSProperties;
-  filterOption: (filterText: any, item: any) => boolean;
+  filterOption: (inputValue: any, item: any) => boolean;
   body?: (props: any) => any;
+  rowKey?: (record: any) => string;
 }
 
+export interface TransferContext {
+  antLocale?: {
+    Transfer?: any,
+  };
+}
+
+const defaultTitles = ['源列表', '目的列表'];
 export default class Transfer extends React.Component<TransferProps, any> {
   static List = List;
   static Operation = Operation;
@@ -44,9 +53,8 @@ export default class Transfer extends React.Component<TransferProps, any> {
     prefixCls: 'ant-transfer',
     dataSource: [],
     render: noop,
-    targetKeys: [],
     onChange: noop,
-    titles: ['源列表', '目的列表'],
+    onSelectChange: noop,
     operations: [],
     showSearch: false,
     body: noop,
@@ -73,6 +81,11 @@ export default class Transfer extends React.Component<TransferProps, any> {
     rowKey: PropTypes.func,
   };
 
+  static contextTypes = {
+    antLocale: PropTypes.object,
+  };
+
+  context: TransferContext;
   splitedDataSource: any;
 
   constructor(props) {
@@ -92,15 +105,16 @@ export default class Transfer extends React.Component<TransferProps, any> {
       // clear cached splited dataSource
       this.splitedDataSource = null;
 
-      const { dataSource, targetKeys } = nextProps;
+      const { dataSource, targetKeys = [] } = nextProps;
+      function existInDateSourcekey(key) {
+        return dataSource.filter(item => item.key === key).length;
+      }
       // clear key nolonger existed
       // clear checkedKeys according to targetKeys
       this.setState({
-        leftCheckedKeys: leftCheckedKeys
-          .filter(data => dataSource.filter(item => item.key === data).length)
+        leftCheckedKeys: leftCheckedKeys.filter(existInDateSourcekey)
           .filter(data => targetKeys.filter(key => key === data).length === 0),
-        rightCheckedKeys: rightCheckedKeys
-          .filter(data => dataSource.filter(item => item.key === data).length)
+        rightCheckedKeys: rightCheckedKeys.filter(existInDateSourcekey)
           .filter(data => targetKeys.filter(key => key === data).length > 0),
       });
     }
@@ -109,29 +123,22 @@ export default class Transfer extends React.Component<TransferProps, any> {
     if (this.splitedDataSource) {
       return this.splitedDataSource;
     }
-    const { targetKeys } = props;
-    let { dataSource } = props;
 
+    const { dataSource, targetKeys = [] } = props;
     if (props.rowKey) {
-      dataSource = dataSource.map(record => {
+      dataSource.forEach(record => {
         record.key = props.rowKey(record);
-        return record;
       });
     }
-    let leftDataSource = [...dataSource];
-    let rightDataSource = [];
 
-    if (targetKeys.length > 0) {
-      targetKeys.forEach((targetKey) => {
-        rightDataSource.push(leftDataSource.filter((data, index) => {
-          if (data.key === targetKey) {
-            leftDataSource.splice(index, 1);
-            return true;
-          }
-          return false;
-        })[0]);
-      });
-    }
+    const leftDataSource = dataSource.filter(({ key }) => targetKeys.indexOf(key) === -1);
+    const rightDataSource = [];
+    targetKeys.forEach((targetKey) => {
+      const targetItem = dataSource.filter(record => record.key === targetKey)[0];
+      if (targetItem) {
+        rightDataSource.push(targetItem);
+      }
+    });
 
     this.splitedDataSource = {
       leftDataSource,
@@ -142,31 +149,43 @@ export default class Transfer extends React.Component<TransferProps, any> {
   }
 
   moveTo = (direction) => {
-    const { targetKeys } = this.props;
+    const { targetKeys = [], onChange } = this.props;
     const { leftCheckedKeys, rightCheckedKeys } = this.state;
     const moveKeys = direction === 'right' ? leftCheckedKeys : rightCheckedKeys;
     // move items to target box
     const newTargetKeys = direction === 'right'
       ? moveKeys.concat(targetKeys)
-      : targetKeys.filter(targetKey => !moveKeys.some(checkedKey => targetKey === checkedKey));
+      : targetKeys.filter(targetKey => moveKeys.indexOf(targetKey) === -1);
 
     // empty checked keys
+    const oppositeDirection = direction === 'right' ? 'left' : 'right';
     this.setState({
-      [direction === 'right' ? 'leftCheckedKeys' : 'rightCheckedKeys']: [],
+      [`${oppositeDirection}CheckedKeys`]: [],
     });
+    this.handleSelectChange(oppositeDirection, []);
 
-    this.props.onChange(newTargetKeys, direction, moveKeys);
+    onChange(newTargetKeys, direction, moveKeys);
   }
 
   moveToLeft = () => this.moveTo('left')
   moveToRight = () => this.moveTo('right')
 
+  handleSelectChange(direction: string, holder: string[]) {
+    const { leftCheckedKeys, rightCheckedKeys } = this.state;
+    const onSelectChange = this.props.onSelectChange;
+    if (direction === 'left') {
+      onSelectChange(holder, rightCheckedKeys);
+    } else {
+      onSelectChange(leftCheckedKeys, holder);
+    }
+  }
+
   handleSelectAll = (direction, filteredDataSource, checkAll) => {
     const holder = checkAll ? [] : filteredDataSource.map(item => item.key);
-
     this.setState({
       [`${direction}CheckedKeys`]: holder,
     });
+    this.handleSelectChange(direction, holder);
   }
 
   handleLeftSelectAll = (filteredDataSource, checkAll) => (
@@ -213,14 +232,28 @@ export default class Transfer extends React.Component<TransferProps, any> {
     this.setState({
       [`${direction}CheckedKeys`]: holder,
     });
+    this.handleSelectChange(direction, holder);
   }
 
   handleLeftSelect = (selectedItem, checked) => this.handleSelect('left', selectedItem, checked);
   handleRightSelect = (selectedItem, checked) => this.handleSelect('right', selectedItem, checked);
 
+  getTitles(): string[] {
+    if (this.props.titles) {
+      return this.props.titles;
+    }
+    if (this.context &&
+      this.context.antLocale &&
+      this.context.antLocale.Transfer
+    ) {
+      return this.context.antLocale.Transfer.titles || [];
+    }
+    return defaultTitles;
+  }
+
   render() {
     const {
-      prefixCls, titles, operations, showSearch, notFoundContent,
+      prefixCls, operations, showSearch, notFoundContent,
       searchPlaceholder, body, footer, listStyle, className,
       filterOption, render,
     } = this.props;
@@ -235,6 +268,7 @@ export default class Transfer extends React.Component<TransferProps, any> {
       [prefixCls]: true,
     });
 
+    const titles = this.getTitles();
     return (
       <div className={cls}>
         <List titleText={titles[0]}

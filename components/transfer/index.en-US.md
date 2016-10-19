@@ -22,12 +22,13 @@ To transfer the elements between two columns in an intuitive and efficient way.
 | render | The function to generate the item shown on a column. Based on an record (element of the dataSource array), this function should return a React element which is generated from that record. | Function(record) |     |
 | targetKeys | A set of keys of elements that are listed on the right column. | Array | [] |
 | onChange | A callback function that is executed when the transfer between columns is complete. | Function(targetKeys, direction, moveKeys) |  |
+| onSelectChange | A callback function which is executed when selected items are changed. | Function(sourceSelectedKeys, targetSelectedKeys) | |
 | listStyle | A custom CSS style used for rendering the transfer columns. | Object |  |
 | className | A custom CSS class. | String |  |
-| titles | A set of titles that are sorted from left to right. | Array | ['源列表', '目的列表'] |
-| operations | A set of operations that are sorted form top to bottom. | Array | [] |
+| titles | A set of titles that are sorted from left to right. | Array | ['Source, 'Target] |
+| operations | A set of operations that are sorted from top to bottom. | Array | [] |
 | showSearch | If included, a search box is shown on each column. | Boolean | false |
-| searchPlaceholder | The hint text of the search box. | String | 'Please input the content' |
+| searchPlaceholder | The hint text of the search box. | String | 'Search here' |
 | notFoundContent | Text to display when a column is empty. | React.node | 'The list is empty'  |
 | footer | A function used for rendering the footer. | Function(props) |  |
 

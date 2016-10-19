@@ -15,11 +15,11 @@ Ant Design 是一个致力于提升『用户』和『设计者』使用体验的
 
 ## 谁在使用
 
-- 蚂蚁金服
-- 阿里巴巴
-- 口碑
-- 新美大
-- 滴滴
+- [蚂蚁金服](http://www.antgroup.com/)
+- [阿里巴巴](http://www.alibaba.com/)
+- [口碑](http://www.koubei.com/)
+- [美团](http://www.meituan.com)
+- [滴滴](http://www.xiaojukeji.com/)
 
 > 如果你的公司和产品使用了 Ant Design，欢迎到 [这里](https://github.com/ant-design/ant-design/issues/477) 留言。
 
@@ -28,6 +28,7 @@ Ant Design 是一个致力于提升『用户』和『设计者』使用体验的
 我们采用 [React](http://facebook.github.io/react/) 封装了一套 Ant Design 的组件库，也欢迎社区其他框架的实现版本。
 
 - [Ant Design of React](/docs/react/introduce)（官方实现）
+- <div class="outside-link"><a href="https://github.com/FE-Driver/vue-beauty" target="_blank">vue-beauty</a></div>
 - <div class="outside-link internal"><a href="http://naza.alibaba.net" target="_blank">Ant Design of Angular 2.0</a></div>
 - <div class="outside-link"><a href="https://github.com/okoala/vue-antd" target="_blank">vue-antd</a></div>
 - <div class="outside-link"><a href="https://github.com/idcos/antd-ember" target="_blank">antd-ember</a></div>

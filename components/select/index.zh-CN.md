@@ -1,23 +1,24 @@
 ---
 category: Components
-chinese: 选择器
+subtitle: 选择器
 type: Form Controls
-english: Select
+title: Select
 ---
 
 类似 Select2 的选择器。
 
 ## 何时使用
 
-弹出一个下拉菜单给用户选择操作，用于代替原生的选择器，或者需要一个更优雅的多选器时。
+- 弹出一个下拉菜单给用户选择操作，用于代替原生的选择器，或者需要一个更优雅的多选器时。
+- 当选项少时（少于 5 项），建议直接将选项平铺，使用 [Radio](/components/radio/) 是更好的选择。
+
+## API
 
 ```html
 <Select>
   <Option value="lucy">lucy</Option>
 </Select>
 ```
-
-## API
 
 ### Select props
 
