@@ -66,7 +66,6 @@ export { default as Select } from './select';
 
 export { default as Slider } from './slider';
 
-
 import Mention from './mention';
 export { Mention };
 
@@ -82,19 +81,24 @@ export { RibbonHeader };
 import CommonButton from './common-button';
 export { CommonButton };
 
-<<<<<<< HEAD
 import SearchInput from './search-input';
 export { SearchInput };
 
 import Pop from './pop';
 export { Pop };
 
+import TextArea from './text-area';
+export { TextArea };
+
 import TreeInput from './tree-input';
 export { TreeInput };
 
 import TreeView from './tree-view';
 export { TreeView };
-=======
+
+import DateTimePicker from './date-time-picker';
+export { DateTimePicker };
+
 export { default as Spin } from './spin';
 
 export { default as Steps } from './steps';
@@ -122,4 +126,3 @@ export { default as Tooltip } from './tooltip';
 export { default as Mention } from './mention';
 
 export { default as Upload } from './upload';
->>>>>>> origin/master
