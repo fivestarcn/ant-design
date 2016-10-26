@@ -99,6 +99,9 @@ export { TreeView };
 import DateTimePicker from './date-time-picker';
 export { DateTimePicker };
 
+import Alerted from './alerted';
+export { Alerted };
+
 export { default as Spin } from './spin';
 
 export { default as Steps } from './steps';
